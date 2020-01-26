@@ -1,0 +1,146 @@
+{
+    "extends": "react-app",
+    "plugins": [
+        "react-hooks"
+    ],
+    "rules": {
+        "arrow-spacing": "warn",
+        "brace-style": [
+            "error",
+            "stroustrup"
+        ],
+        "eol-last": [
+            "error",
+            "always"
+        ],
+        "indent": [
+            "error",
+            4,
+            {
+                "SwitchCase": 1
+            }
+        ],
+        "jsx-quotes": "error",
+        "key-spacing": [
+            "warn",
+            {
+                "beforeColon": false
+            }
+        ],
+        "keyword-spacing": [
+            "error",
+            {
+                "after": false,
+                "overrides": {
+                    "case": {
+                        "after": true
+                    },
+                    "const": {
+                        "after": true
+                    },
+                    "let": {
+                        "after": true
+                    },
+                    "import": {
+                        "after": true
+                    },
+                    "from": {
+                        "after": true
+                    },
+                    "return": {
+                        "after": true
+                    },
+                    "export": {
+                        "after": true
+                    }
+                }
+            }
+        ],
+        "max-len": [
+            "warn",
+            {
+                "code": 120,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true,
+                "ignoreComments": true
+            }
+        ],
+        "no-restricted-syntax": [
+            "off",
+            "ClassDeclaration"
+        ],
+        "no-restricted-globals": [
+            "off"
+        ],
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 2,
+                "maxEOF": 1
+            }
+        ],
+        "no-trailing-spaces": [
+            "error",
+            {
+                "ignoreComments": true
+            }
+        ],
+        "no-useless-escape": "error",
+        "object-curly-spacing": [
+            "warn",
+            "always"
+        ],
+        "quotes": [
+            "error",
+            "single",
+            {
+                "avoidEscape": true,
+                "allowTemplateLiterals": true
+            }
+        ],
+        "quote-props": [
+            "error",
+            "as-needed",
+            {
+                "keywords": true,
+                "numbers": true
+            }
+        ],
+        "react/jsx-wrap-multilines": [
+            "warn",
+            {
+                "assignment": "parens-new-line",
+                "condition": "parens-new-line",
+                "declaration": "parens-new-line",
+                "logical": "parens",
+                "prop": "parens-new-line",
+                "return": "parens-new-line"
+            }
+        ],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
+        "react/prop-types": 1,
+        "semi": "error",
+        "sort-keys": [
+            "warn",
+            "asc",
+            {
+                "natural": true,
+                "caseSensitive": false
+            }
+        ],
+        "space-before-blocks": [
+            "error",
+            "never"
+        ],
+        "space-before-function-paren": [
+            "error",
+            "never"
+        ],
+        "space-in-parens": [
+            "error",
+            "always"
+        ],
+        "space-infix-ops": "error"
+    }
+}
