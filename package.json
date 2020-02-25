@@ -2,16 +2,21 @@
   "name": "react-d3-kit",
   "version": "1.0.0",
   "description": "a lightweight d3 component library for React apps",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "start": "parcel index.html",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "linter": "eslint --config .eslintrc --ext .js --ext .jsx"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "henrym",
   "license": "ISC",
   "dependencies": {
+    "babel-eslint": "^10.0.3",
     "d3": "^5.15.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -21,12 +26,6 @@
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
     "@babel/preset-react": "^7.8.3",
-    "eslint": "^6.8.0",
-    "eslint-html-reporter": "^0.7.4",
-    "eslint-plugin-react-hooks": "^2.3.0",
     "parcel-bundler": "^1.12.4"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }
