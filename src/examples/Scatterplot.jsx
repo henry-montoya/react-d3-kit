@@ -3,35 +3,34 @@ import useResponsiveChart from '../hooks/useResponsiveChart';
 import Chart from '../Chart';
 import AxisHorizontal from '../axes/AxisHorizontal';
 import AxisVertical from '../axes/AxisVertical';
-import Bars from '../components/Bars';
-import Gradient from '../components/Gradient';
-import useHistogramUtils from '../utils/useHistogramUtils';
+import Dots from '../components/Dots';
+import useScatterUtils from '../utils/useScatterUtils';
 
-const gradientColors = ['red', 'yellow'];
-const gradientId = 'bar-gradient'
-
-const Histogram = ( { data } ) => {
+const Scatterplot = ( { data } ) => {
   const [ref, dimensions] = useResponsiveChart();
 
-  const histogramConfig = {
+  const scatterConfig = {
     xValueKey: 'x',
-    barPadding: 10,
-    thresholdCount: 6,
+    yValueKey: 'y',
     dimensions,
+    colorKey: 'x',
+    startColor: 'yellow',
+    endColor: 'red',
   };
+
+  const handleMouseOver = ( e, datum ) => {
+    console.log( 'e', e.target )
+    console.log( 'datum', datum )
+  }
 
   const {
     xAxisScale,
     yAxisScale,
     formatTick,
-    binsGenerator,
     xValueScaled,
     yValueScaled,
-    barWidthGetter,
-    barHeightGetter,
-  } = useHistogramUtils( data.scatter, histogramConfig );
-
-  const bins = binsGenerator( data.scatter );
+    colorValueScaled,
+  } = useScatterUtils( data.scatter, scatterConfig );
 
   return (
     <div
@@ -39,9 +38,6 @@ const Histogram = ( { data } ) => {
       style={{ height: window.innerHeight }}
     >
       <Chart dimensions={dimensions}>
-        <defs>
-          <Gradient id={gradientId} colors={gradientColors} x2="0" y2="100%" />
-        </defs>
         <AxisHorizontal
           dimensions={dimensions}
           scale={xAxisScale}
@@ -54,18 +50,17 @@ const Histogram = ( { data } ) => {
           label="y label"
           formatTick={formatTick}
         />
-        <Bars
-          data={bins}
+        <Dots
+          onMouseEnter={handleMouseOver}
+          data={data.scatter}
+          fill={colorValueScaled}
+          radius={10}
           xAccessor={xValueScaled}
           yAccessor={yValueScaled}
-          widthAccessor={barWidthGetter}
-          heightAccessor={barHeightGetter}
-          style={{ fill: `url(#${gradientId})` }}
-          showLabels
         />
       </Chart>
     </div>
   );
 };
 
-export default Histogram;
+export default Scatterplot;

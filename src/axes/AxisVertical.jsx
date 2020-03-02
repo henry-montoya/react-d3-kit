@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 const AxisVertical = ( {
+  classes,
   dimensions,
   label,
   formatTick,
@@ -9,6 +10,7 @@ const AxisVertical = ( {
   showTickMarks,
   strokeColor,
   strokeWidth,
+  ...props
 } ) => {
   const { boundedHeight } = dimensions;
 
@@ -17,32 +19,32 @@ const AxisVertical = ( {
   const ticks = scale.ticks( tickCount );
 
   return (
-    <g transform="translate(0, 0)">
-      <line y2={boundedHeight} stroke={strokeColor} strokeWidth={strokeWidth} />
+    <g transform="translate(0, 0)" {...props}>
+      <line className={classes.axis} y2={boundedHeight} stroke={strokeColor} strokeWidth={strokeWidth} />
       {ticks.map( ( tick ) => (
         <Fragment key={tick}>
           <text
+            className={classes.values}
             key={tick}
-            className="Axis__tick"
-            transform={`translate(-24, ${scale( tick )})`}
+            transform={`translate(-32, ${scale( tick )})`}
           >
             {formatTick( tick )}
           </text>
           {showTickMarks && (
             <line
-              className="vert-tick"
+              className={classes.axis || classes.ticks}
               x1={-5}
               x2={0}
               y1={scale( tick )}
               y2={scale( tick )}
-              stroke="black"
+              stroke={strokeColor}
             />
           )}
         </Fragment>
       ) )}
       {label && (
         <text
-          className="Axis__label"
+          className={classes.label}
           style={{
             transform: `translate(-56px, ${boundedHeight / 2}px) rotate(-90deg)`,
           }}
@@ -73,8 +75,14 @@ AxisVertical.propTypes = {
 };
 
 AxisVertical.defaultProps = {
+  classes: {
+    axis:  {},
+    label: {},
+    ticks: {},
+    values: {},
+  },
   label: null,
   showTickMarks: true,
-  strokeColor: '#000000',
+  strokeColor: '#bdc3c7',
   strokeWidth: 1,
 };

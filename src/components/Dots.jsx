@@ -4,46 +4,52 @@ import * as d3 from 'd3';
 
 const Dots = ( {
   data,
+  fill,
   xAccessor,
   yAccessor,
   widthAccessor,
   heightAccessor,
   radius,
   mapKey,
+  onMouseEnter,
   id,
   className,
-} ) => (
-  <>
-    {data.map( ( d, i ) => (
-      <circle
-        id={`${id}-${i}`}
-        className={className}
-        key={d[mapKey] || i}
-        cx={xAccessor( d )}
-        cy={yAccessor( d )}
-        r={radius}
-        fill="red"
-        width={d3.max( [widthAccessor( d ), 0] )}
-        height={d3.max( [heightAccessor( d ), 0] )}
-      />
-    ) )}
-  </>
-);
+  ...props
+} ) => {
+  return (
+    <>
+      {data.map( ( d, i ) => (
+        <circle
+          id={`${id}-${xAccessor( d )}-${yAccessor( d )}`}
+          className={className}
+          key={mapKey ? d[mapKey] : i}
+          cx={xAccessor( d )}
+          cy={yAccessor( d )}
+          r={typeof radius === 'function' ? radius( d ) : radius}
+          fill={typeof fill === 'function' ? fill( d ): fill}
+          onMouseEnter={( e ) => onMouseEnter( e, d )}
+          {...props}
+        />
+      ) )}
+    </> )
+};
 
 export default Dots;
 
 Dots.propTypes = {
-  // eslint-disable-next-line
   data: PropTypes.array.isRequired,
+  fill: PropTypes.oneOfType( [ PropTypes.number, PropTypes.func] ),
   xAccessor: PropTypes.func.isRequired,
   yAccessor: PropTypes.func.isRequired,
-  radius: PropTypes.number.isRequired,
-  widthAccessor: PropTypes.func.isRequired,
-  heightAccessor: PropTypes.func.isRequired,
-  // eslint-disable-next-line
+  radius: PropTypes.oneOfType( [PropTypes.number, PropTypes.func] ),
   mapKey: PropTypes.oneOfType( [PropTypes.string, PropTypes.number] ),
-  // eslint-disable-next-line
   id: PropTypes.oneOfType( [PropTypes.string, PropTypes.number] ),
-  // eslint-disable-next-line
   className: PropTypes.string,
+  onMouseEnter: PropTypes.func,
 };
+
+Dots.defaultProps = {
+  fill: '#000000',
+  id: 'dot',
+  radius: 4, 
+}

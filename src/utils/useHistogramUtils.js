@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
-// const configShape = {
-//   xKey: string
+// configShape = {
+//   xValueKey: string
 //   barPadding: number or string
 //   dimensions: {}
 //   thresholdCount: number,
@@ -9,12 +9,12 @@ import * as d3 from 'd3';
 
 function useHistogramUtils( data, config ) {
   const {
-    dimensions, barPadding, thresholdCount,
+    dimensions, barPadding, thresholdCount, xValueKey
   } = config;
 
   const { boundedWidth, boundedHeight } = dimensions;
 
-  const xValueGetter = ( d ) => d.x;
+  const xValueGetter = ( d ) => d[xValueKey];
 
   const yValueGetter = ( d ) => d.length;
 

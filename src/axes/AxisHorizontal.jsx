@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const AxisHorizontal = ( {
+  classes,
   dimensions,
   label,
   formatTick,
   scale,
   strokeColor,
   strokeWidth,
+  ...props
 } ) => {
   const { boundedWidth, boundedHeight } = dimensions;
 
@@ -16,12 +18,13 @@ const AxisHorizontal = ( {
   const ticks = scale.ticks( tickCount );
 
   return (
-    <g transform={`translate(0, ${boundedHeight})`}>
-      <line className="Axis__line" stroke={strokeColor} strokeWidth={strokeWidth} x2={boundedWidth} />
+    <g transform={`translate(0, ${boundedHeight})`} {...props}> 
+      <line className={classes.axis} stroke={strokeColor} strokeWidth={strokeWidth} x2={boundedWidth} />
       {ticks.map( ( tick ) => (
         <text
+          style={{textAnchor: 'middle'}}
+          className={classes.values}
           key={tick}
-          className="Axis__tick"
           transform={`translate(${scale( tick )}, 25)`}
         >
           {formatTick( tick )}
@@ -29,7 +32,7 @@ const AxisHorizontal = ( {
       ) )}
       {label && (
         <text
-          className="Axis__label"
+          className={classes.label}
           transform={`translate(${boundedWidth / 2}, 60)`}
         >
           {label}
@@ -42,6 +45,7 @@ const AxisHorizontal = ( {
 export default AxisHorizontal;
 
 AxisHorizontal.propTypes = {
+  classes: PropTypes.object,
   dimensions: PropTypes.object.isRequired,
   label: PropTypes.oneOfType( [
     PropTypes.string,
@@ -58,7 +62,12 @@ AxisHorizontal.propTypes = {
 };
 
 AxisHorizontal.defaultProps = {
+  classes: {
+    axis:  {},
+    label: {},
+    values: {},
+  },
   label: null,
-  strokeColor: '#000000',
+  strokeColor: '#bdc3c7',
   strokeWidth: 1,
 };
