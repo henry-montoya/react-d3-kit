@@ -5,10 +5,12 @@ const AxisHorizontal = ( {
   classes,
   dimensions,
   label,
+  labelColor,
   formatTick,
   scale,
   strokeColor,
   strokeWidth,
+  tickValueColor,
   ...props
 } ) => {
   const { boundedWidth, boundedHeight } = dimensions;
@@ -22,7 +24,8 @@ const AxisHorizontal = ( {
       <line className={classes.axis} stroke={strokeColor} strokeWidth={strokeWidth} x2={boundedWidth} />
       {ticks.map( ( tick ) => (
         <text
-          style={{textAnchor: 'middle'}}
+          fill={tickValueColor}
+          style={{ textAnchor: 'middle' }}
           className={classes.values}
           key={tick}
           transform={`translate(${scale( tick )}, 25)`}
@@ -32,8 +35,10 @@ const AxisHorizontal = ( {
       ) )}
       {label && (
         <text
+          fill={labelColor}
           className={classes.label}
           transform={`translate(${boundedWidth / 2}, 60)`}
+          style={{ textAnchor: 'middle' }}
         >
           {label}
         </text>
@@ -51,6 +56,7 @@ AxisHorizontal.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ] ),
+  labelColor: PropTypes.string,
   formatTick: PropTypes.func.isRequired,
   scale: PropTypes.func.isRequired,
   strokeColor: PropTypes.string,
@@ -58,16 +64,18 @@ AxisHorizontal.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ] ),
-
+  tickValueColor: PropTypes.string,
 };
 
 AxisHorizontal.defaultProps = {
   classes: {
-    axis:  {},
-    label: {},
-    values: {},
+    axis:  null,
+    label: null,
+    values: null,
   },
   label: null,
+  labelColor: '#bdc3c7',
   strokeColor: '#bdc3c7',
   strokeWidth: 1,
+  tickValueColor: '#bdc3c7',
 };

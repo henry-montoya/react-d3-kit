@@ -13,6 +13,9 @@ const Bars = ( {
   id,
   className,
   showLabels,
+  labelColor,
+  onMouseEnter,
+  onMouseLeave,
   ...props
 } ) => (
   <>
@@ -22,6 +25,7 @@ const Bars = ( {
         <Fragment key={mapKey ? d[mapKey] : i}>
           {showLabels && d.length > 0 && (
             <text 
+              fill={labelColor}
               transform={`translate(${xAccessor( d ) + ( d3.max( [widthAccessor( d ), 0] ) / 2 )}, ${yAccessor( d ) - 5 })`}
               style={{ textAnchor: 'middle' }}
             >
@@ -36,6 +40,8 @@ const Bars = ( {
             fill={fill}
             width={d3.max( [widthAccessor( d ), 0] )}
             height={d3.max( [heightAccessor( d ), 0] )}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
             {...props}
           />
         </Fragment>
@@ -56,9 +62,13 @@ Bars.propTypes = {
   id: PropTypes.oneOfType( [PropTypes.string, PropTypes.number] ),
   className: PropTypes.string,
   showLabels: PropTypes.bool,
+  labelColor: PropTypes.string,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
 };
 
 Bars.defaultProps = {
   fill: '#000000',
   showLabels: false,
-}
+  labelColor: '#bdc3c7',
+};

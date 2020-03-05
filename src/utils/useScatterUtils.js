@@ -21,15 +21,15 @@ function useScatterUtils( data, config ) {
 
   const xAxisScale = d3.scaleLinear()
     .domain( d3.extent( data, xValueGetter ) )
-    .range( [0, boundedWidth] )
+    .range( [0, boundedWidth] ); 
 
   const yAxisScale = d3.scaleLinear()
     .domain( [0, d3.max( data, yValueGetter )] )
-    .range( [boundedHeight, 0] )
+    .range( [boundedHeight, 0] );
 
-  const xValueScaled = d => xAxisScale( xValueGetter( d ) )
+  const xValueScaled = d => xAxisScale( xValueGetter( d ) );
 
-  const yValueScaled = d => yAxisScale( yValueGetter( d ) )
+  const yValueScaled = d => yAxisScale( yValueGetter( d ) );
   
   const formatTick = d3.format( ',' );
 
@@ -40,9 +40,9 @@ function useScatterUtils( data, config ) {
     const colorValueGetter = ( d ) => d[colorKey];
     const colorScale = d3.scaleLinear()
       .domain( d3.extent( data, colorValueGetter ) )
-      .range( [startColor, endColor] )
+      .range( [startColor, endColor] );
     
-    colorValueScaled = d => colorScale( colorValueGetter( d ) )
+    colorValueScaled = d => colorScale( colorValueGetter( d ) );
   }
 
   return {

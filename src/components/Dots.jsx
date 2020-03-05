@@ -31,7 +31,7 @@ const Dots = ( {
           {...props}
         />
       ) )}
-    </> )
+    </> );
 };
 
 export default Dots;
@@ -52,4 +52,4 @@ Dots.defaultProps = {
   fill: '#000000',
   id: 'dot',
   radius: 4, 
-}
+};

@@ -19,9 +19,9 @@ const Scatterplot = ( { data } ) => {
   };
 
   const handleMouseOver = ( e, datum ) => {
-    console.log( 'e', e.target )
-    console.log( 'datum', datum )
-  }
+    console.log( 'e', e.target );
+    console.log( 'datum', datum );
+  };
 
   const {
     xAxisScale,

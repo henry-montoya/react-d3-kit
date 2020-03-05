@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Gradient = ( { id, colors, type, ...props } ) => {
   const stops = ( 
@@ -12,24 +12,24 @@ const Gradient = ( { id, colors, type, ...props } ) => {
         />
       ) )}
     </> 
-  )
+  );
 
   if( type === 'linear' ){
     return (
       <linearGradient id={id} gradientUnits="userSpaceOnUse" spreadMethod="pad" {...props}>
         {stops}
       </linearGradient>
-    )
+    );
 
   } else if ( type === 'radial' ) {
     return (
       <radialGradient id={id} gradientUnits="userSpaceOnUse" spreadMethod="pad" {...props}>
         {stops}
       </radialGradient>
-    )
+    );
 
   }
-}
+};
 
 Gradient.propTypes = {
   id: PropTypes.string,
@@ -37,12 +37,12 @@ Gradient.propTypes = {
     PropTypes.string,
   ),
   type: PropTypes.oneOf( ['linear', 'radial'] ),
-}
+};
 
 Gradient.defaultProps = {
   id: 'gradient',
   colors: [],
   type: 'linear'
-}
+};
 
-export default Gradient
+export default Gradient;

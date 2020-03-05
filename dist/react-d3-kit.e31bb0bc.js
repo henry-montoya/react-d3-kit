@@ -62646,7 +62646,9 @@ var Chart = function Chart(_ref) {
       marginTop = dimensions.marginTop;
   return _react.default.createElement("svg", {
     width: width,
-    height: height
+    height: height,
+    role: "figure",
+    tabIndex: 0
   }, _react.default.createElement("g", {
     transform: "translate(".concat(marginLeft, ", ").concat(marginTop, ")")
   }, children));
@@ -62682,11 +62684,13 @@ var AxisHorizontal = function AxisHorizontal(_ref) {
   var classes = _ref.classes,
       dimensions = _ref.dimensions,
       label = _ref.label,
+      labelColor = _ref.labelColor,
       formatTick = _ref.formatTick,
       scale = _ref.scale,
       strokeColor = _ref.strokeColor,
       strokeWidth = _ref.strokeWidth,
-      props = _objectWithoutProperties(_ref, ["classes", "dimensions", "label", "formatTick", "scale", "strokeColor", "strokeWidth"]);
+      tickValueColor = _ref.tickValueColor,
+      props = _objectWithoutProperties(_ref, ["classes", "dimensions", "label", "labelColor", "formatTick", "scale", "strokeColor", "strokeWidth", "tickValueColor"]);
 
   var boundedWidth = dimensions.boundedWidth,
       boundedHeight = dimensions.boundedHeight;
@@ -62701,6 +62705,7 @@ var AxisHorizontal = function AxisHorizontal(_ref) {
     x2: boundedWidth
   }), ticks.map(function (tick) {
     return _react.default.createElement("text", {
+      fill: tickValueColor,
       style: {
         textAnchor: 'middle'
       },
@@ -62709,8 +62714,12 @@ var AxisHorizontal = function AxisHorizontal(_ref) {
       transform: "translate(".concat(scale(tick), ", 25)")
     }, formatTick(tick));
   }), label && _react.default.createElement("text", {
+    fill: labelColor,
     className: classes.label,
-    transform: "translate(".concat(boundedWidth / 2, ", 60)")
+    transform: "translate(".concat(boundedWidth / 2, ", 60)"),
+    style: {
+      textAnchor: 'middle'
+    }
   }, label));
 };
 
@@ -62720,20 +62729,24 @@ AxisHorizontal.propTypes = {
   classes: _propTypes.default.object,
   dimensions: _propTypes.default.object.isRequired,
   label: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
+  labelColor: _propTypes.default.string,
   formatTick: _propTypes.default.func.isRequired,
   scale: _propTypes.default.func.isRequired,
   strokeColor: _propTypes.default.string,
-  strokeWidth: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number])
+  strokeWidth: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
+  tickValueColor: _propTypes.default.string
 };
 AxisHorizontal.defaultProps = {
   classes: {
-    axis: {},
-    label: {},
-    values: {}
+    axis: null,
+    label: null,
+    values: null
   },
   label: null,
+  labelColor: '#bdc3c7',
   strokeColor: '#bdc3c7',
-  strokeWidth: 1
+  strokeWidth: 1,
+  tickValueColor: '#bdc3c7'
 };
 },{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js"}],"src/axes/AxisVertical.jsx":[function(require,module,exports) {
 "use strict";
@@ -62763,12 +62776,15 @@ var AxisVertical = function AxisVertical(_ref) {
   var classes = _ref.classes,
       dimensions = _ref.dimensions,
       label = _ref.label,
+      labelColor = _ref.labelColor,
       formatTick = _ref.formatTick,
       scale = _ref.scale,
+      tickValueColor = _ref.tickValueColor,
       showTickMarks = _ref.showTickMarks,
+      showZeroTick = _ref.showZeroTick,
       strokeColor = _ref.strokeColor,
       strokeWidth = _ref.strokeWidth,
-      props = _objectWithoutProperties(_ref, ["classes", "dimensions", "label", "formatTick", "scale", "showTickMarks", "strokeColor", "strokeWidth"]);
+      props = _objectWithoutProperties(_ref, ["classes", "dimensions", "label", "labelColor", "formatTick", "scale", "tickValueColor", "showTickMarks", "showZeroTick", "strokeColor", "strokeWidth"]);
 
   var boundedHeight = dimensions.boundedHeight;
   var tickCount = dimensions.boundedHeight / 70;
@@ -62780,10 +62796,11 @@ var AxisVertical = function AxisVertical(_ref) {
     y2: boundedHeight,
     stroke: strokeColor,
     strokeWidth: strokeWidth
-  }), ticks.map(function (tick) {
+  }), ticks.slice(showZeroTick ? 0 : 1).map(function (tick) {
     return _react.default.createElement(_react.Fragment, {
       key: tick
     }, _react.default.createElement("text", {
+      fill: tickValueColor,
       className: classes.values,
       key: tick,
       transform: "translate(-32, ".concat(scale(tick), ")")
@@ -62796,6 +62813,7 @@ var AxisVertical = function AxisVertical(_ref) {
       stroke: strokeColor
     }));
   }), label && _react.default.createElement("text", {
+    fill: labelColor,
     className: classes.label,
     style: {
       transform: "translate(-56px, ".concat(boundedHeight / 2, "px) rotate(-90deg)")
@@ -62808,23 +62826,29 @@ exports.default = _default;
 AxisVertical.propTypes = {
   dimensions: _propTypes.default.object.isRequired,
   label: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
+  labelColor: _propTypes.default.string,
   formatTick: _propTypes.default.func.isRequired,
   scale: _propTypes.default.func.isRequired,
   showTickMarks: _propTypes.default.bool,
+  showZeroTick: _propTypes.default.bool,
   strokeColor: _propTypes.default.string,
-  strokeWidth: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number])
+  strokeWidth: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
+  tickValueColor: _propTypes.default.string
 };
 AxisVertical.defaultProps = {
   classes: {
-    axis: {},
-    label: {},
-    ticks: {},
-    values: {}
+    axis: null,
+    label: null,
+    ticks: null,
+    values: null
   },
   label: null,
+  labelColor: '#bdc3c7',
   showTickMarks: true,
+  showZeroTick: false,
   strokeColor: '#bdc3c7',
-  strokeWidth: 1
+  strokeWidth: 1,
+  tickValueColor: '#bdc3c7'
 };
 },{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js"}],"src/components/Bars.jsx":[function(require,module,exports) {
 "use strict";
@@ -62863,12 +62887,16 @@ var Bars = function Bars(_ref) {
       id = _ref.id,
       className = _ref.className,
       showLabels = _ref.showLabels,
-      props = _objectWithoutProperties(_ref, ["data", "fill", "xAccessor", "yAccessor", "widthAccessor", "heightAccessor", "mapKey", "id", "className", "showLabels"]);
+      labelColor = _ref.labelColor,
+      onMouseEnter = _ref.onMouseEnter,
+      onMouseLeave = _ref.onMouseLeave,
+      props = _objectWithoutProperties(_ref, ["data", "fill", "xAccessor", "yAccessor", "widthAccessor", "heightAccessor", "mapKey", "id", "className", "showLabels", "labelColor", "onMouseEnter", "onMouseLeave"]);
 
   return _react.default.createElement(_react.default.Fragment, null, data.map(function (d, i) {
     return _react.default.createElement(_react.Fragment, {
       key: mapKey ? d[mapKey] : i
     }, showLabels && d.length > 0 && _react.default.createElement("text", {
+      fill: labelColor,
       transform: "translate(".concat(xAccessor(d) + d3.max([widthAccessor(d), 0]) / 2, ", ").concat(yAccessor(d) - 5, ")"),
       style: {
         textAnchor: 'middle'
@@ -62880,7 +62908,9 @@ var Bars = function Bars(_ref) {
       y: yAccessor(d),
       fill: fill,
       width: d3.max([widthAccessor(d), 0]),
-      height: d3.max([heightAccessor(d), 0])
+      height: d3.max([heightAccessor(d), 0]),
+      onMouseEnter: onMouseEnter,
+      onMouseLeave: onMouseLeave
     }, props)));
   }));
 };
@@ -62897,11 +62927,15 @@ Bars.propTypes = {
   mapKey: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
   id: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
   className: _propTypes.default.string,
-  showLabels: _propTypes.default.bool
+  showLabels: _propTypes.default.bool,
+  labelColor: _propTypes.default.string,
+  onMouseEnter: _propTypes.default.func,
+  onMouseLeave: _propTypes.default.func
 };
 Bars.defaultProps = {
   fill: '#000000',
-  showLabels: false
+  showLabels: false,
+  labelColor: '#bdc3c7'
 };
 },{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","d3":"node_modules/d3/index.js"}],"src/components/Gradient.jsx":[function(require,module,exports) {
 "use strict";
@@ -62979,7 +63013,7 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 // configShape = {
-//   xValueKey: string
+//   metricValueKey: string
 //   barPadding: number or string
 //   dimensions: {}
 //   thresholdCount: number,
@@ -62988,20 +63022,21 @@ function useHistogramUtils(data, config) {
   var dimensions = config.dimensions,
       barPadding = config.barPadding,
       thresholdCount = config.thresholdCount,
-      xValueKey = config.xValueKey;
+      metricValueKey = config.metricValueKey;
+  console.log('data', data);
   var boundedWidth = dimensions.boundedWidth,
       boundedHeight = dimensions.boundedHeight;
 
-  var xValueGetter = function xValueGetter(d) {
-    return d[xValueKey];
+  var metricValueGetter = function metricValueGetter(d) {
+    return d[metricValueKey];
   };
 
   var yValueGetter = function yValueGetter(d) {
     return d.length;
   };
 
-  var xAxisScale = d3.scaleLinear().domain(d3.extent(data, xValueGetter)).range([0, boundedWidth]).nice(thresholdCount);
-  var binsGenerator = d3.histogram().domain(xAxisScale.domain()).value(xValueGetter).thresholds(xAxisScale.ticks(thresholdCount));
+  var xAxisScale = d3.scaleLinear().domain(d3.extent(data, metricValueGetter)).range([0, boundedWidth]).nice(thresholdCount);
+  var binsGenerator = d3.histogram().domain(xAxisScale.domain()).value(metricValueGetter).thresholds(xAxisScale.ticks(thresholdCount));
   var histogramBins = binsGenerator(data);
   var yAxisScale = d3.scaleLinear().domain([0, d3.max(histogramBins, yValueGetter)]).range([boundedHeight, 0]).nice();
   var formatTick = d3.format(',');
@@ -63022,21 +63057,23 @@ function useHistogramUtils(data, config) {
     return boundedHeight - yAxisScale(yValueGetter(d));
   };
 
+  var meanValue = d3.mean(data, metricValueGetter);
   return {
     xAxisScale: xAxisScale,
     yAxisScale: yAxisScale,
     formatTick: formatTick,
-    binsGenerator: binsGenerator,
+    histogramBins: histogramBins,
     xValueScaled: xValueScaled,
     yValueScaled: yValueScaled,
     barWidthGetter: barWidthGetter,
-    barHeightGetter: barHeightGetter
+    barHeightGetter: barHeightGetter,
+    meanValue: meanValue
   };
 }
 
 var _default = useHistogramUtils;
 exports.default = _default;
-},{"d3":"node_modules/d3/index.js"}],"src/examples/Histogram.jsx":[function(require,module,exports) {
+},{"d3":"node_modules/d3/index.js"}],"src/components/MeanLine.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63045,6 +63082,151 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+var MeanLine = function MeanLine(_ref) {
+  var classes = _ref.classes,
+      dimensions = _ref.dimensions,
+      id = _ref.id,
+      meanValue = _ref.meanValue,
+      scale = _ref.scale,
+      strokeColor = _ref.strokeColor,
+      dashLength = _ref.dashLength,
+      showLabel = _ref.showLabel,
+      labelText = _ref.labelText,
+      labelTextColor = _ref.labelTextColor,
+      showValue = _ref.showValue,
+      props = _objectWithoutProperties(_ref, ["classes", "dimensions", "id", "meanValue", "scale", "strokeColor", "dashLength", "showLabel", "labelText", "labelTextColor", "showValue"]);
+
+  return _react.default.createElement(_react.default.Fragment, null, _react.default.createElement("text", {
+    fill: labelTextColor,
+    className: classes.label,
+    transform: "translate(".concat(scale(meanValue), ", -20)"),
+    style: {
+      textAnchor: 'middle'
+    }
+  }, labelText), _react.default.createElement("line", _extends({
+    id: id,
+    className: classes.line,
+    x1: scale(meanValue),
+    x2: scale(meanValue),
+    y1: -15,
+    y2: dimensions.boundedHeight,
+    stroke: strokeColor,
+    strokeDasharray: dashLength
+  }, props)));
+};
+
+var _default = MeanLine;
+exports.default = _default;
+MeanLine.propTypes = {
+  dimensions: _propTypes.default.object.isRequired,
+  scale: _propTypes.default.func.isRequired,
+  strokeColor: _propTypes.default.string,
+  dashLength: _propTypes.default.number,
+  id: _propTypes.default.oneOfType([_propTypes.default.string, _propTypes.default.number]),
+  classes: _propTypes.default.object,
+  labelText: _propTypes.default.string,
+  labelTextColor: _propTypes.default.string,
+  showLabel: _propTypes.default.bool,
+  showValue: _propTypes.default.bool
+};
+MeanLine.defaultProps = {
+  classes: {
+    line: null,
+    label: null,
+    value: null
+  },
+  dashLength: 5,
+  id: 'meanLine',
+  labelText: 'Mean',
+  labelTextColor: '#bdc3c7',
+  showLabel: false,
+  showValue: false,
+  strokeColor: '#bdc3c7'
+};
+},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js"}],"src/components/Tooltip.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var d3 = _interopRequireWildcard(require("d3"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+var Tooltip = function Tooltip(_ref) {
+  var fill = _ref.fill,
+      height = _ref.height,
+      width = _ref.width,
+      position = _ref.position,
+      x = _ref.x,
+      props = _objectWithoutProperties(_ref, ["fill", "height", "width", "position", "x"]);
+
+  return _react.default.createElement("rect", _extends({
+    // id={`${id}-${i}`}
+    // className={className}
+    x: x,
+    y: 0,
+    fill: fill,
+    width: 100,
+    height: 100
+  }, props));
+};
+
+var _default = Tooltip;
+exports.default = _default;
+Tooltip.propTypes = {//   data: PropTypes.array.isRequired,
+  //   fill: PropTypes.string,
+  //   xAccessor: PropTypes.func.isRequired,
+  //   yAccessor: PropTypes.func.isRequired,
+  //   widthAccessor: PropTypes.func.isRequired,
+  //   heightAccessor: PropTypes.func.isRequired,
+  //   mapKey: PropTypes.oneOfType( [PropTypes.string, PropTypes.number] ),
+  //   id: PropTypes.oneOfType( [PropTypes.string, PropTypes.number] ),
+  //   className: PropTypes.string,
+  //   showLabels: PropTypes.bool,
+  //   labelColor: PropTypes.string,
+};
+Tooltip.defaultProps = {
+  fill: '#000000' //   showLabels: false,
+  //   labelColor: '#bdc3c7',
+
+};
+},{"react":"node_modules/react/index.js","prop-types":"node_modules/prop-types/index.js","d3":"node_modules/d3/index.js"}],"src/examples/Histogram.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
 
 var _useResponsiveChart3 = _interopRequireDefault(require("../hooks/useResponsiveChart"));
 
@@ -63060,7 +63242,15 @@ var _Gradient = _interopRequireDefault(require("../components/Gradient"));
 
 var _useHistogramUtils2 = _interopRequireDefault(require("../utils/useHistogramUtils"));
 
+var _MeanLine = _interopRequireDefault(require("../components/MeanLine"));
+
+var _Tooltip = _interopRequireDefault(require("../components/Tooltip"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
@@ -63076,13 +63266,18 @@ var gradientId = 'bar-gradient';
 var Histogram = function Histogram(_ref) {
   var data = _ref.data;
 
+  var _useState = (0, _react.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      hoveredDatum = _useState2[0],
+      setHoveredDatum = _useState2[1];
+
   var _useResponsiveChart = (0, _useResponsiveChart3.default)(),
       _useResponsiveChart2 = _slicedToArray(_useResponsiveChart, 2),
       ref = _useResponsiveChart2[0],
       dimensions = _useResponsiveChart2[1];
 
   var histogramConfig = {
-    xValueKey: 'x',
+    metricValueKey: 'x',
     barPadding: 10,
     thresholdCount: 6,
     dimensions: dimensions
@@ -63092,13 +63287,23 @@ var Histogram = function Histogram(_ref) {
       xAxisScale = _useHistogramUtils.xAxisScale,
       yAxisScale = _useHistogramUtils.yAxisScale,
       formatTick = _useHistogramUtils.formatTick,
-      binsGenerator = _useHistogramUtils.binsGenerator,
+      histogramBins = _useHistogramUtils.histogramBins,
       xValueScaled = _useHistogramUtils.xValueScaled,
       yValueScaled = _useHistogramUtils.yValueScaled,
       barWidthGetter = _useHistogramUtils.barWidthGetter,
-      barHeightGetter = _useHistogramUtils.barHeightGetter;
+      barHeightGetter = _useHistogramUtils.barHeightGetter,
+      meanValue = _useHistogramUtils.meanValue;
 
-  var bins = binsGenerator(data.scatter);
+  var handleMouseEnter = function handleMouseEnter(e) {
+    console.log('e', e.clientX);
+    setHoveredDatum(e.clientX);
+  };
+
+  var handleMouseLeave = function handleMouseLeave(e) {
+    console.log('e', e);
+    setHoveredDatum(false);
+  };
+
   return _react.default.createElement("div", {
     ref: ref,
     style: {
@@ -63122,7 +63327,7 @@ var Histogram = function Histogram(_ref) {
     label: "y label",
     formatTick: formatTick
   }), _react.default.createElement(_Bars.default, {
-    data: bins,
+    data: histogramBins,
     xAccessor: xValueScaled,
     yAccessor: yValueScaled,
     widthAccessor: barWidthGetter,
@@ -63130,13 +63335,21 @@ var Histogram = function Histogram(_ref) {
     style: {
       fill: "url(#".concat(gradientId, ")")
     },
-    showLabels: true
+    showLabels: true,
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave
+  }), _react.default.createElement(_MeanLine.default, {
+    dimensions: dimensions,
+    scale: xAxisScale,
+    meanValue: meanValue
+  }), hoveredDatum !== false && _react.default.createElement(_Tooltip.default, {
+    x: hoveredDatum
   })));
 };
 
 var _default = Histogram;
 exports.default = _default;
-},{"react":"node_modules/react/index.js","../hooks/useResponsiveChart":"src/hooks/useResponsiveChart.js","../Chart":"src/Chart.jsx","../axes/AxisHorizontal":"src/axes/AxisHorizontal.jsx","../axes/AxisVertical":"src/axes/AxisVertical.jsx","../components/Bars":"src/components/Bars.jsx","../components/Gradient":"src/components/Gradient.jsx","../utils/useHistogramUtils":"src/utils/useHistogramUtils.js"}],"src/components/Dots.jsx":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","../hooks/useResponsiveChart":"src/hooks/useResponsiveChart.js","../Chart":"src/Chart.jsx","../axes/AxisHorizontal":"src/axes/AxisHorizontal.jsx","../axes/AxisVertical":"src/axes/AxisVertical.jsx","../components/Bars":"src/components/Bars.jsx","../components/Gradient":"src/components/Gradient.jsx","../utils/useHistogramUtils":"src/utils/useHistogramUtils.js","../components/MeanLine":"src/components/MeanLine.jsx","../components/Tooltip":"src/components/Tooltip.jsx"}],"src/components/Dots.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

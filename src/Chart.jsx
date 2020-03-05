@@ -6,7 +6,7 @@ const Chart = ( { dimensions, children } ) => {
     width, height, marginLeft, marginTop,
   } = dimensions;
   return (
-    <svg width={width} height={height}>
+    <svg width={width} height={height} role="figure" tabIndex={0}>
       <g transform={`translate(${marginLeft}, ${marginTop})`}>{children}</g>
     </svg>
   );

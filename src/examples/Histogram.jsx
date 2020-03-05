@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useResponsiveChart from '../hooks/useResponsiveChart';
 import Chart from '../Chart';
 import AxisHorizontal from '../axes/AxisHorizontal';
@@ -6,15 +6,18 @@ import AxisVertical from '../axes/AxisVertical';
 import Bars from '../components/Bars';
 import Gradient from '../components/Gradient';
 import useHistogramUtils from '../utils/useHistogramUtils';
+import MeanLine from '../components/MeanLine';
+import Tooltip from '../components/Tooltip';
 
 const gradientColors = ['red', 'yellow'];
-const gradientId = 'bar-gradient'
+const gradientId = 'bar-gradient';
 
 const Histogram = ( { data } ) => {
+  const [hoveredDatum, setHoveredDatum] = useState( null );
   const [ref, dimensions] = useResponsiveChart();
-
+ 
   const histogramConfig = {
-    xValueKey: 'x',
+    metricValueKey: 'x',
     barPadding: 10,
     thresholdCount: 6,
     dimensions,
@@ -24,14 +27,24 @@ const Histogram = ( { data } ) => {
     xAxisScale,
     yAxisScale,
     formatTick,
-    binsGenerator,
+    histogramBins,
     xValueScaled,
     yValueScaled,
     barWidthGetter,
     barHeightGetter,
+    meanValue
   } = useHistogramUtils( data.scatter, histogramConfig );
 
-  const bins = binsGenerator( data.scatter );
+  const handleMouseEnter = e => {
+    console.log( 'e', e.clientX );
+    setHoveredDatum( e.clientX);
+  };
+
+  const handleMouseLeave = e => {
+    console.log( 'e' ,e );
+    setHoveredDatum( false );
+  };
+
 
   return (
     <div
@@ -55,14 +68,24 @@ const Histogram = ( { data } ) => {
           formatTick={formatTick}
         />
         <Bars
-          data={bins}
+          data={histogramBins}
           xAccessor={xValueScaled}
           yAccessor={yValueScaled}
           widthAccessor={barWidthGetter}
           heightAccessor={barHeightGetter}
           style={{ fill: `url(#${gradientId})` }}
           showLabels
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         />
+        <MeanLine
+          dimensions={dimensions}
+          scale={xAxisScale}
+          meanValue={meanValue}
+        />
+        {hoveredDatum !== false && (
+          <Tooltip x={hoveredDatum}/>
+        )}
       </Chart>
     </div>
   );

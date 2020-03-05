@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 
 // configShape = {
-//   xValueKey: string
+//   metricValueKey: string
 //   barPadding: number or string
 //   dimensions: {}
 //   thresholdCount: number,
@@ -9,25 +9,26 @@ import * as d3 from 'd3';
 
 function useHistogramUtils( data, config ) {
   const {
-    dimensions, barPadding, thresholdCount, xValueKey
+    dimensions, barPadding, thresholdCount, metricValueKey
   } = config;
+  console.log( 'data', data );
 
   const { boundedWidth, boundedHeight } = dimensions;
 
-  const xValueGetter = ( d ) => d[xValueKey];
+  const metricValueGetter = ( d ) => d[metricValueKey];
 
   const yValueGetter = ( d ) => d.length;
 
 
   const xAxisScale = d3.scaleLinear()
-    .domain( d3.extent( data, xValueGetter ) )
+    .domain( d3.extent( data, metricValueGetter ) )
     .range( [0, boundedWidth] )
     .nice( thresholdCount );
 
 
   const binsGenerator = d3.histogram()
     .domain( xAxisScale.domain() )
-    .value( xValueGetter )
+    .value( metricValueGetter )
     .thresholds( xAxisScale.ticks( thresholdCount ) );
 
 
@@ -50,15 +51,18 @@ function useHistogramUtils( data, config ) {
 
   const barHeightGetter = ( d ) => boundedHeight - yAxisScale( yValueGetter( d ) );
 
+  const meanValue = d3.mean( data, metricValueGetter );
+
   return {
     xAxisScale,
     yAxisScale,
     formatTick,
-    binsGenerator,
+    histogramBins,
     xValueScaled,
     yValueScaled,
     barWidthGetter,
     barHeightGetter,
+    meanValue,
   };
 }
 
